@@ -1,0 +1,13 @@
+body:
+  - type: input
+    attributes:
+      name: input_tz
+      label: Default input timezone
+      description: "The timezone to assume if none is specified at search time. List of valid timezones: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
+      defaultValue: "America/New_York"
+  - type: input
+    attributes:
+      name: output_tz
+      label: Default output timezone
+      description: "The timezone(s) to assume if none is specified at search time. Separate each timezone by a space. List of valid timezones: https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
+      defaultValue: "America/Los_Angeles Universal Europe/London"
