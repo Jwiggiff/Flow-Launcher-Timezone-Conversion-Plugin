@@ -1,12 +1,12 @@
 {
-  "ID": "9a791986-e9d1-47f1-a342-5ec506135385",
-  "ActionKeyword": "tz",
-  "Name": "Timezone Conversion",
-  "Description": "Converts a time from one timezone to another",
-  "Author": "Josh Friedman",
-  "Version": "0.0.1",
-  "Language": "TypeScript",
-  "ExecuteFileName": "./dist/main.js",
-  "Website": "https://github.com/Jwiggiff/Flow-Launcher-Timezone-Conversion-Plugin",
-  "IcoPath": "./assets/icon.png"
+	"ID": "9a791986-e9d1-47f1-a342-5ec506135385",
+	"ActionKeyword": "tz",
+	"Name": "Timezone Conversion",
+	"Description": "Converts a time from one timezone to another",
+	"Author": "Josh Friedman",
+	"Version": "1.0.0",
+	"Language": "TypeScript",
+	"ExecuteFileName": "./dist/main.js",
+	"Website": "https://github.com/Jwiggiff/Flow-Launcher-Timezone-Conversion-Plugin",
+	"IcoPath": "./assets/icon.png"
 }
