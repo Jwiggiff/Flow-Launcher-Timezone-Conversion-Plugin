@@ -4,7 +4,7 @@
 	"Name": "Timezone Conversion",
 	"Description": "Converts a time from one timezone to another",
 	"Author": "Josh Friedman",
-	"Version": "1.0.0",
+	"Version": "1.1.0",
 	"Language": "TypeScript",
 	"ExecuteFileName": "./dist/main.js",
 	"Website": "https://github.com/Jwiggiff/Flow-Launcher-Timezone-Conversion-Plugin",
