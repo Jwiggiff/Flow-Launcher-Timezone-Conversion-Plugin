@@ -22,7 +22,7 @@ jobs:
         with:
           path: "plugin.json"
           prop_path: "Version"
-      - run: echo current version: ${{steps.version.outputs.prop}}
+      - run: "echo current version: ${{steps.version.outputs.prop}}"
       - uses: octokit/request-action@v2.x
         id: get_latest_release
         with:
