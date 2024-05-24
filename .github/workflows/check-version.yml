@@ -1,0 +1,38 @@
+name: Check Version Number
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Node.Js
+        uses: actions/setup-node@v2
+        with:
+          node-version: "20"
+      - name: get version
+        id: version
+        uses: notiz-dev/github-action-json-property@release
+        with:
+          path: "plugin.json"
+          prop_path: "Version"
+      - run: echo ${{steps.version.outputs.prop}}
+      - uses: octokit/request-action@v2.x
+        id: get_latest_release
+        with:
+          route: GET /repos/${{ github.repository }}/releases/latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - run: "echo latest release: '${{ steps.get_latest_release.outputs.data.tag_name }}'"
+      - name: Check Version
+        run: |
+          if [ "${{ steps.version.outputs.prop }}" == "${{ steps.get_latest_release.outputs.data.tag_name }}" ]; then
+            echo "You must update the version number in plugin.json before creating a release."
+            exit 1
+          fi
