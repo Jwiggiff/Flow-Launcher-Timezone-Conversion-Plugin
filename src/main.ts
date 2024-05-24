@@ -4,7 +4,6 @@ import moment from "moment-timezone";
 import ms from "ms";
 import { z } from "zod";
 import { Flow, JSONRPCResponse } from "./lib/flow";
-import logger from "./lib/logger";
 
 // The events are the custom events that you define in the flow.on() method.
 const events = ["copy_result"] as const;
@@ -15,18 +14,29 @@ const flow = new Flow<Events>("assets/icon.png");
 flow.on("query", (params) => {
 	const { input_tz, output_tz } = flow.settings;
 
-	const INPUT_TZ = input_tz || "America/New_York";
-	const OUTPUT_TZ = output_tz.split(" ") || ["America/Los_Angeles", "Europe/London", "Universal"];
+	let INPUT_TZ = input_tz || "America/New_York";
+	let OUTPUT_TZ = output_tz.split(" ") || ["America/Los_Angeles", "Europe/London", "Universal"];
 
 	const [query] = z.array(z.string()).parse(params);
 
 	let date: moment.Moment = moment();
 
-	if (params.length > 0) {
-		const timestamp = chrono.parseDate(query, {
+	if (query) {
+		const timestamp = chrono.parse(query, {
 			timezone: moment.tz.zone(INPUT_TZ)?.abbr(chrono.parseDate(query)?.getTime() || Date.now()),
 		});
-		date = moment.tz(timestamp, INPUT_TZ);
+		if (timestamp[0]?.start.get("timezoneOffset") != null) {
+			INPUT_TZ =
+				moment.tz
+					.zonesForCountry("US", true)
+					.find((z) => z.offset === timestamp[0].start.get("timezoneOffset"))?.name || INPUT_TZ;
+
+			OUTPUT_TZ = [INPUT_TZ, ...OUTPUT_TZ];
+		}
+
+		date = moment.tz(timestamp[0].date(), INPUT_TZ);
+	} else {
+		OUTPUT_TZ = [INPUT_TZ, ...OUTPUT_TZ];
 	}
 
 	if (date.isValid()) {
@@ -35,7 +45,8 @@ flow.on("query", (params) => {
 	}
 
 	// Parse through ms
-	date = moment.tz(new Date(Date.now() + ms(query)), INPUT_TZ);
+	if (!!query) date = moment.tz(new Date(Date.now() + ms(query)), INPUT_TZ);
+	else date = moment.tz(new Date(Date.now()), INPUT_TZ);
 
 	if (date.isValid()) {
 		flow.showResult(...getResults(date, OUTPUT_TZ));
