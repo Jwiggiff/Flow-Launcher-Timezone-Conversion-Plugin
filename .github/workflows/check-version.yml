@@ -32,7 +32,7 @@ jobs:
       - run: "echo latest release: ${{ fromJson(steps.get_latest_release.outputs.data).tag_name }}"
       - name: Check Version
         run: |
-          if [ "${{ steps.version.outputs.prop }}" == "${{ steps.get_latest_release.outputs.data.tag_name }}" ]; then
+          if [ "v${{ steps.version.outputs.prop }}" == "${{ fromJson(steps.get_latest_release.outputs.data).tag_name }}" ]; then
             echo "You must update the version number in plugin.json before creating a release."
             exit 1
           fi
