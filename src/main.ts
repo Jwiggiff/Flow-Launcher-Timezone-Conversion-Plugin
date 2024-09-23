@@ -34,7 +34,7 @@ flow.on("query", (params) => {
 			OUTPUT_TZ = [INPUT_TZ, ...OUTPUT_TZ];
 		}
 
-		date = moment.tz(timestamp[0].date(), INPUT_TZ);
+		date = moment.tz(timestamp[0]?.date(), INPUT_TZ);
 	} else {
 		OUTPUT_TZ = [INPUT_TZ, ...OUTPUT_TZ];
 	}
